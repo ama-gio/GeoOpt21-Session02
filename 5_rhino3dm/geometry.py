@@ -2,19 +2,24 @@
 import random as r
 import rhino3dm as rg
 
-def createRandomPoints(count,rX, rY):
+def createRandomSphere(count, rX, rY, rZ, rR):
 
-    randomPts = []
+    randomSphere = []
+    
+
     for i in range(count):
 
-        #in each itereation generate some random points
-        random_x = r.uniform(-rX, rX)
-        random_y = r.uniform(-rY, rY)
+        #in each itereation generate some random points and radii
+        random_x = r.randrange(-rX, rX, 2)
+        random_y = r.randrange(-rY, rY, 2)
+        random_z = r.randrange(-rZ, rZ, 2)
+        random_r = r.randrange(-rR, rR, 2)
 
-        #create a point with rhino3dm
-        random_pt = rg.Point3d(random_x, random_y, 0)
-        
-        #add point to the list
-        randomPts.append(random_pt)
+        #create a sphere with rhino3dm
+        random_center = rg.Point3d(random_x, random_y, random_z)
+        random_sphere = rg.Sphere(random_center, random_r)
+       
+        #add sphere to the list
+        randomSphere.append(random_sphere)
 
-    return randomPts
+    return randomSphere

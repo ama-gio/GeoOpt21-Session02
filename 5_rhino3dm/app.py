@@ -15,54 +15,60 @@ hops = hs.Hops(app)
 
 
 @hops.component(
-    "/createRandomPoints",
-    name = "Create Random Points",
+    "/createRandomSphere",
+    name = "Create Random Sphere",
     inputs=[
         hs.HopsInteger("Count", "C", "Number of Random Points", hs.HopsParamAccess.ITEM, default= 1),
         hs.HopsNumber("X range of randomness", "X", "Maximum randomness in X directon", hs.HopsParamAccess.ITEM),
-        hs.HopsNumber("Y range of randomness", "Y", "Maximum randomness in Y directon", hs.HopsParamAccess.ITEM)
+        hs.HopsNumber("Y range of randomness", "Y", "Maximum randomness in Y directon", hs.HopsParamAccess.ITEM),
+        hs.HopsNumber("Z range of randomness", "Z", "Maximum randomness in Z directon", hs.HopsParamAccess.ITEM),
+        hs.HopsNumber("R range of randomness", "R", "Maximum randomness for Radius", hs.HopsParamAccess.ITEM)
 
     ],
     outputs=[
-       hs.HopsPoint("Random Points","RP","List of generated random points ", hs.HopsParamAccess.LIST)
+       hs.HopsBrep("Random Spheres","RS","List of generated random Spheres ", hs.HopsParamAccess.LIST)
     ]
 )
-def createRandomPoints(count,rX, rY):
+def createRandomSphere(count, rX, rY, rZ, rR):
 
-    randomPts = []
+    randomSphere = []
+    
+
     for i in range(count):
 
-        #in each itereation generate some random points
-        random_x = r.uniform(-rX, rX)
-        random_y = r.uniform(-rY, rY)
+        #in each itereation generate some random points and radii
+        random_x = r.randrange(-rX, rX, 2)
+        random_y = r.randrange(-rY, rY, 2)
+        random_z = r.randrange(-rZ, rZ, 2)
+        random_r = r.randrange(-rR, rR, 2)
 
-        #create a point with rhino3dm
-        random_pt = rg.Point3d(random_x, random_y, 0)
-        
-        #add point to the list
-        randomPts.append(random_pt)
+        #create a sphere with rhino3dm
+        random_center = rg.Point3d(random_x, random_y, random_z)
+        random_sphere = rg.Sphere(random_center, random_r)
+       
+        #add sphere to the list
+        randomSphere.append(random_sphere)
 
-    return randomPts
-
-
+    return randomSphere
 
 @hops.component(
-    "/moreRandomPoints",
-    name = "More Random Points",
+    "/moreRandomSphere",
+    name = "More Random Sphere",
     inputs=[
         hs.HopsInteger("Count", "C", "Number of Random Points", hs.HopsParamAccess.ITEM, default= 1),
         hs.HopsNumber("X range of randomness", "X", "Maximum randomness in X directon", hs.HopsParamAccess.ITEM),
-        hs.HopsNumber("Y range of randomness", "Y", "Maximum randomness in Y directon", hs.HopsParamAccess.ITEM)
-
+        hs.HopsNumber("Y range of randomness", "Y", "Maximum randomness in Y directon", hs.HopsParamAccess.ITEM),
+        hs.HopsNumber("Z range of randomness", "Z", "Maximum randomness in Z directon", hs.HopsParamAccess.ITEM),
+        hs.HopsNumber("R range of randomness", "R", "Maximum randomness for Radius", hs.HopsParamAccess.ITEM)
     ],
     outputs=[
-       hs.HopsPoint("Random Points","RP","List of generated random points ", hs.HopsParamAccess.LIST)
+       hs.HopsBrep("Random Spheres","RS","List of generated random Spheres ", hs.HopsParamAccess.LIST)
     ]
 )
-def moreRandomPoints(count,rX, rY):
+def moreRandomSphere(count, rX, rY, rZ, rR):
 
-    randomPts = geo.createRandomPoints(count, rX, rY)
-    return randomPts
+    randomSphere = geo.createRandomSphere(count, rX, rY, rZ, rR)
+    return randomSphere
 
 
 
