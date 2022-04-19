@@ -2,9 +2,9 @@ import rhino3dm as rg
 import networkx as nx
 import random
 
-def createGridGraph(x, y):
+def createGridGraph(x, y, z, seed=200):
 
-    M = nx.grid_2d_graph(x,y)
+    M = nx.relaxed_caveman_graph(x,y,z, seed=200)
     return M
 
 def addRandomWeigrhs(G):
@@ -22,11 +22,11 @@ def addRandomWeigrhs(G):
 
 def getNodes(G, layout = 0):
 
-    if layout == 0 : lay =  nx.kamada_kawai_layout(G)
-    elif layout == 1 : lay =  nx.circular_layout(G)
-    elif layout == 2 : lay =  nx.shell_layout(G)
-    elif layout == 3 : lay =  nx.spiral_layout(G)
-    else: lay = nx.planar_layout(G)
+    if layout <= 1 : lay =  nx.circular_layout(G)
+    elif layout <= 3 : lay =  nx.spring_layout(G)
+    elif layout == 3 : lay =  nx.shell_layout(G)
+    elif layout == 4 : lay =  nx.random_layout(G)
+    else: lay = nx.spectral_layout(G)
 
     nodes = []
     for d in lay.values():
@@ -38,11 +38,11 @@ def getNodes(G, layout = 0):
 
 def getEdges(G, layout = 0):
 
-    if layout == 0 : lay =  nx.kamada_kawai_layout(G)
-    elif layout == 1 : lay =  nx.circular_layout(G)
-    elif layout == 2 : lay =  nx.shell_layout(G)
-    elif layout == 3 : lay =  nx.spiral_layout(G)
-    else: lay = nx.planar_layout(G)
+    if layout <= 1 : lay =  nx.circular_layout(G)
+    elif layout <= 3 : lay =  nx.spring_layout(G)
+    elif layout == 3 : lay =  nx.shell_layout(G)
+    elif layout == 4 : lay =  nx.random_layout(G)
+    else: lay = nx.spectral_layout(G)
 
     edges = []
     for e in G.edges:

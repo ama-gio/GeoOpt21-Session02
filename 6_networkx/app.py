@@ -12,8 +12,10 @@ hops = hs.Hops(app)
     "/createGraph",
     name = "Create Graph",
     inputs=[
-        hs.HopsInteger("Count X", "X", "Number of node in X", hs.HopsParamAccess.ITEM, default= 1),
-        hs.HopsInteger("Count Y", "Y", "Number of node in Y", hs.HopsParamAccess.ITEM, default= 1),
+        hs.HopsInteger("Count l", "l", "Number of groups", hs.HopsParamAccess.ITEM, default= 1),
+        hs.HopsInteger("Count k", "k", "Size of cliques", hs.HopsParamAccess.ITEM, default= 1),
+        hs.HopsInteger("Count p", "p", "Probabilty of rewiring each edge", hs.HopsParamAccess.ITEM, default= 1),
+
         hs.HopsInteger("Layout", "L", "Layout to order Nodes", hs.HopsParamAccess.ITEM, default= 0),
 
 
@@ -24,9 +26,9 @@ hops = hs.Hops(app)
 
     ]
 )
-def createGraph(X, Y, layout):
+def createGraph(l, k, p, layout):
 
-    G = geo.createGridGraph(X, Y)
+    G = geo.createGridGraph(l, k, p)
     GW = geo.addRandomWeigrhs(G)
 
     nodes = geo.getNodes(GW, layout)
